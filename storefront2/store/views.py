@@ -2,7 +2,7 @@ from django.db.models.aggregates import Count
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.mixins import ListModelMixin, CreateModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -16,9 +16,10 @@ from .filters import ProductFilter
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ProductFilter
     search_fields = ['title', 'description']
+    ordering_fields = ['unit_price', 'last_update']
 
     # def get_queryset(self):
     #     queryset = Product.objects.all()
